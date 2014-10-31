@@ -9,6 +9,7 @@
     julia-mode
     helm-ag
     lua-mode
+    ag
     ))
 
 (defun trishume/init-auctex ()
@@ -80,8 +81,12 @@
         (interactive)
         (helm-ag (projectile-project-root)))
       (evil-leader/set-key
+<<<<<<< HEAD
         "pa" 'trishume-helm-ag))))
 
 (defun trishume/init-lua-mode ()
   (use-package lua-mode
     :defer t))
+=======
+        "oa" 'trishume-helm-ag))))
+>>>>>>> hotfixes/fix-trishume-ag
