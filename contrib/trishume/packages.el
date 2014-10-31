@@ -81,12 +81,8 @@
         (interactive)
         (helm-ag (projectile-project-root)))
       (evil-leader/set-key
-<<<<<<< HEAD
-        "pa" 'trishume-helm-ag))))
+        "oa" 'trishume-helm-ag))))
 
 (defun trishume/init-lua-mode ()
   (use-package lua-mode
     :defer t))
-=======
-        "oa" 'trishume-helm-ag))))
->>>>>>> hotfixes/fix-trishume-ag
