@@ -1591,7 +1591,7 @@ DELETE-FUNC when calling CALLBACK.
     :defer t
     :init
     (progn
-      (setq-default projectile-enable-caching t)
+      ;(setq-default projectile-enable-caching t)
       (evil-leader/set-key "p" 'projectile-commander))
     :config
     (progn
