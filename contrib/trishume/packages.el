@@ -3,7 +3,13 @@
     auctex
     cdlatex
     smooth-scrolling
+    idris-mode
+    arduino-mode
+    scad-mode
+    qml-mode
+    julia-mode
     helm-ag
+    lua-mode
     ))
 
 (defun trishume/init-auctex ()
@@ -23,6 +29,21 @@
           scroll-conservatively 9999
           scroll-step 1)))
 
+(defun trishume/init-arduino-mode ()
+  (use-package arduino-mode :defer t))
+
+(defun trishume/init-idris-mode ()
+  (use-package idris-mode :defer t))
+
+(defun trishume/init-scad-mode ()
+  (use-package scad-mode :defer t))
+
+(defun trishume/init-qml-mode ()
+  (use-package qml-mode :defer t))
+
+(defun trishume/init-julia-mode ()
+  (use-package julia-mode :defer t))
+
 (defun trishume/init-helm-ag ()
   (use-package helm-ag
     :init
@@ -32,3 +53,7 @@
         (helm-ag (projectile-project-root)))
       (evil-leader/set-key
         "pa" 'trishume-helm-ag))))
+
+(defun trishume/init-lua-mode ()
+  (use-package lua-mode
+    :defer t))
