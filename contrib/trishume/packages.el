@@ -4,6 +4,7 @@
     cdlatex
     smooth-scrolling
     helm-ag
+    ag
     ))
 
 (defun trishume/init-auctex ()
@@ -31,4 +32,4 @@
         (interactive)
         (helm-ag (projectile-project-root)))
       (evil-leader/set-key
-        "pa" 'trishume-helm-ag))))
+        "oa" 'trishume-helm-ag))))
