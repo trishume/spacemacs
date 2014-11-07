@@ -4,6 +4,10 @@
     company-tern
     ))
 
+(when (boundp 'ycmd-server-command)
+  (add-to-list 'company-mode-packages 'ycmd)
+  (add-to-list 'company-mode-packages 'company-ycmd))
+
 (defun company-mode/init-company ()
   (use-package company
     :config
@@ -30,3 +34,16 @@
      :defer t
      :config
      (add-to-list 'company-backends 'company-tern)))
+
+(defun company-mode/init-ycmd ()
+  (use-package ycmd
+    :init
+    (progn
+      (add-hook 'c++-mode-hook 'ycmd-mode)
+      (setq-default ycmd-file-parse-result-hook nil)
+      (setq-default ycmd-global-config
+                    (expand-file-name "~/.emacs.d/contrib/company-mode/global_conf.py")))))
+
+(defun company-mode/init-company-ycmd ()
+  (use-package company-ycmd
+    :init (company-ycmd-setup)))
