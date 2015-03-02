@@ -118,7 +118,7 @@ NAME."
                      (format "%s.template" template)))
         (dest (concat (configuration-layer//get-private-layer-dir name)
                       (format "%s.el" template))))
-    
+
     (copy-file src dest)
     (find-file dest)
     (save-excursion
@@ -565,6 +565,7 @@ to select one."
 
 (defun configuration-layer//initialize-packages ()
   "Initialize all the declared packages."
+  (setq configuration-layer-encountered-error nil)
   (mapc (lambda (x) (configuration-layer//initialize-package
                      x (ht-get configuration-layer-all-packages x)))
         configuration-layer-all-packages-sorted))
@@ -576,10 +577,14 @@ to select one."
      (let* ((init-func (intern (format "%s/init-%s" layer pkg))))
        (when (and (package-installed-p pkg) (fboundp init-func))
          (spacemacs/message "Package: Initializing %s:%s..." layer pkg)
-         (configuration-layer//activate-package pkg)
-         (funcall init-func)
-         (setq initializedp t))))
-   (when initializedp) (spacemacs/loading-animation)))
+         (condition-case nil
+             (progn
+               (configuration-layer//activate-package pkg)
+               (funcall init-func)
+               (setq initializedp t))
+           ((debug error) (spacemacs/message "ERROR: Failed to initialize %s:%s" layer pkg)
+            (setq configuration-layer-encountered-error t) nil)))))
+   (when initializedp (spacemacs/loading-animation))))
 
 (defun configuration-layer//activate-package (pkg)
   "Activate PKG."
@@ -788,6 +793,8 @@ deleted safely."
      (dotspacemacs|call-func dotspacemacs/config "Calling dotfile config...")
      (when dotspacemacs-loading-progress-bar
        (spacemacs/append-to-buffer (format "%s\n" spacemacs-loading-done-text)))
+     (when configuration-layer-encountered-error
+       (spacemacs/append-to-buffer "Some package(s) failed to initialize! Check the Warnings buffer for errors.\n"))
      ;; from jwiegley
      ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
      (let ((elapsed (float-time
